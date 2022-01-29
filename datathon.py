@@ -1,4 +1,3 @@
-# hey bitch
 from pandas.core.frame import DataFrame
 from sklearn.preprocessing import OrdinalEncoder
 import pandas as pd
@@ -63,7 +62,7 @@ free_count = np.count_nonzero(race_np_arr == "Free Form Text Only")
 arr = np.array([white_count, black_count, asian_count,
                 joint_count, NA_count, two_count, island_count, free_count])
 plt.pie(arr)
-plt.show()
+# plt.show()
 
 print("White Count", white_count)
 print("Black Count: ", black_count)
@@ -104,39 +103,68 @@ def count_race_accept_race(race, accept_arr, race_arr):
 
 
 accept_labels = ['Accepted', 'Denied']
+colors = ['#2a3990', '#d23369']
 
 white_pie = count_race_accept_race("White", accepted_arr, race_np_arr)
-
-plt.pie(white_pie, labels=accept_labels)
+white_denial_percent = (white_pie[1] / (white_pie[0] + white_pie[1]))*100
+print("WHITE DENIAL PERCENT: ", white_denial_percent)
+plt.pie(white_pie, labels=accept_labels, autopct='%.1f%%', colors=colors)
 plt.title("Acceptance by Race: White")
 plt.savefig('white_pie.png')
 plt.show()
 
 black_pie = count_race_accept_race(
     "Black or African American", accepted_arr, race_np_arr)
-plt.pie(black_pie, labels=accept_labels)
+black_denial_percent = (black_pie[1] / (black_pie[0] + black_pie[1]))*100
+print("BLACK DENIAL PERCENT: ", black_denial_percent)
+plt.pie(black_pie, labels=accept_labels, autopct='%.1f%%', colors=colors)
 plt.title("Acceptance by Race: Black or African American")
 plt.savefig('black_pie.png')
 plt.show()
 
 asian_pie = count_race_accept_race("Asian", accepted_arr, race_np_arr)
-plt.pie(asian_pie, labels=accept_labels)
+asian_denial_percent = (asian_pie[1] / (asian_pie[0] + asian_pie[1]))*100
+print("ASIAN DENIAL PERCENT: ", asian_denial_percent)
+plt.pie(asian_pie, labels=accept_labels, autopct='%.1f%%', colors=colors)
 plt.title("Acceptance by Race: Asian")
 plt.savefig('asian_pie.png')
 plt.show()
 
 na_pie = count_race_accept_race(
     "American Indian or Alaska Native", accepted_arr, race_np_arr)
-plt.pie(na_pie, labels=accept_labels)
+na_denial_percent = (na_pie[1] / (na_pie[0] + na_pie[1]))*100
+print("NA DENIAL PERCENT: ", na_denial_percent)
+plt.pie(na_pie, labels=accept_labels, autopct='%.1f%%', colors=colors)
 plt.title("Acceptance by Race: American Indian or Alaska Native")
 plt.savefig('na_pie.png')
 plt.show()
 
 two_pie = count_race_accept_race(
     "2 or more minority races", accepted_arr, race_np_arr)
-plt.pie(two_pie, labels=accept_labels)
+two_denial_percent = (two_pie[1] / (two_pie[0] + two_pie[1]))*100
+print("NA DENIAL PERCENT: ", two_denial_percent)
+plt.pie(two_pie, labels=accept_labels, autopct='%.1f%%', colors=colors)
 plt.title("Acceptance by Race: 2 or more minority races")
 plt.savefig('two_pie.png')
+plt.show()
+
+
+# BAR CHART
+# create dataset
+bar_height = [white_denial_percent, black_denial_percent,
+              asian_denial_percent, na_denial_percent, two_denial_percent]
+bars = ['W', 'B', 'A',
+        'NA', '2']
+x_pos = np.arange(len(bars))
+
+# create bars
+plt.bar(x_pos, bar_height, color=(0.2, 0.4, 0.6, 0.6))
+
+# create names on the x-axis
+plt.xticks(x_pos, bar_height)
+
+# show graph
+plt.savefig('race_bar.png')
 plt.show()
 print("-----------")
 
